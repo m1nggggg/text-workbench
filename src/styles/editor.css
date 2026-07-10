@@ -4,8 +4,9 @@
   gap: 1px;
   overflow: hidden;
   border: 1px solid var(--border);
-  border-radius: 5px;
+  border-radius: 8px;
   background: var(--border);
+  box-shadow: 0 12px 36px rgb(0 0 0 / 16%);
 }
 
 .editor-pane { min-width: 0; background: var(--panel); }
@@ -17,7 +18,7 @@
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  min-height: 44px;
+  min-height: 46px;
   padding: 6px 8px 6px 12px;
   border-bottom: 1px solid var(--border);
 }
@@ -25,7 +26,7 @@
 .side-marker { width: 7px; height: 7px; border-radius: 50%; background: var(--ghost); }
 .side-marker-left { background: var(--removed); }
 .side-marker-right { background: var(--added); }
-.editor-title h3 { overflow: hidden; font-size: 0.8rem; font-weight: 700; text-overflow: ellipsis; white-space: nowrap; }
+.editor-title h3 { overflow: hidden; font-size: 0.8rem; font-weight: 700; letter-spacing: -0.005em; text-overflow: ellipsis; white-space: nowrap; }
 .editor-title > span:last-child { color: var(--ghost); font: 0.64rem var(--mono); text-transform: uppercase; }
 .editor-actions { gap: 5px; }
 
@@ -33,7 +34,7 @@
   width: 30px;
   height: 30px;
   padding: 0;
-  border-color: var(--border);
+  border-color: transparent;
   background: transparent;
   color: var(--muted);
 }
@@ -44,13 +45,20 @@
   min-height: 260px;
   background: var(--editor);
 }
+.editor-body:focus-within::after {
+  position: absolute;
+  z-index: 5;
+  inset: 0;
+  border: 1px solid var(--accent);
+  content: "";
+  pointer-events: none;
+}
 .code-editor {
   height: 100%;
   min-width: 0;
   color: #dce1e7;
   font: 0.82rem/1.6 var(--mono);
 }
-.code-editor .cm-editor.cm-focused { box-shadow: inset 0 0 0 1px var(--accent); }
 .code-editor .cm-placeholder { color: var(--ghost); font-style: normal; }
 .code-editor .cm-tooltip { border-color: var(--border); background: var(--panel); color: var(--text); }
 .code-editor .cm-panels input,

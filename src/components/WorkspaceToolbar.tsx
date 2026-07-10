@@ -1,6 +1,7 @@
 import { ArrowLeftRight, Eraser, FlaskConical } from 'lucide-react';
 import type { CompareMode, TextCompareOptions } from '../compare/types';
 import TextComparisonOptions from './TextComparisonOptions';
+import { Button } from './ui/button';
 
 type WorkspaceToolbarProps = {
   canClear: boolean;
@@ -21,15 +22,15 @@ const WorkspaceToolbar = ({ canClear, canSwap, mode, textOptions, onTextOptionCh
     </div>
     <div className="workspace-actions">
       {mode === 'text' ? <TextComparisonOptions options={textOptions} onChange={onTextOptionChange} /> : null}
-      <button className="toolbar-button" type="button" onClick={onLoadExample}>
+      <Button className="toolbar-button" variant="outline" size="sm" type="button" onClick={onLoadExample}>
         <FlaskConical aria-hidden="true" size={15} /> Example
-      </button>
-      <button className="toolbar-button" type="button" disabled={!canSwap} onClick={onSwap} aria-label="Swap inputs">
+      </Button>
+      <Button className="toolbar-button" variant="outline" size="sm" type="button" disabled={!canSwap} onClick={onSwap} aria-label="Swap inputs">
         <ArrowLeftRight aria-hidden="true" size={15} /> Swap
-      </button>
-      <button className="toolbar-button" type="button" disabled={!canClear} onClick={onClear}>
+      </Button>
+      <Button className="toolbar-button clear-all-button" variant="ghost" size="sm" type="button" disabled={!canClear} onClick={onClear}>
         <Eraser aria-hidden="true" size={15} /> Clear all
-      </button>
+      </Button>
     </div>
   </div>
 );

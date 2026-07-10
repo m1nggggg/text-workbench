@@ -2,6 +2,7 @@
   .top-bar { position: static; align-items: flex-start; flex-direction: column; gap: 10px; padding: 12px 14px; }
   .top-actions { width: 100%; flex-wrap: wrap; }
   .privacy-badge { margin-right: auto; }
+  .top-separator { display: none; }
   .app-shell { width: min(100vw - 20px, 720px); padding-top: 18px; }
   .workspace-toolbar { align-items: flex-start; flex-direction: column; }
   .workspace-actions { flex-wrap: wrap; }
@@ -13,11 +14,13 @@
 }
 
 @media (max-width: 520px) {
-  .brand-lockup p, .privacy-badge, .primary-button kbd { display: none; }
+  .brand-lockup p, .privacy-badge { display: none; }
   .top-actions { gap: 6px; }
+  .compare-controls { width: 100%; }
   .mode-tabs { flex: 1; }
-  .mode-tab { flex: 1; justify-content: center; }
-  .primary-button { padding: 0 10px; }
+  .mode-tabs [role="tablist"] { width: 100%; }
+  .mode-tabs [role="tab"] { min-width: 0; flex: 1; justify-content: center; }
+  .primary-button { min-width: 96px; padding: 0 10px; }
   .workspace-actions { width: 100%; }
   .comparison-options { width: 100%; margin-right: 0; }
   .comparison-options label { flex: 1; justify-content: center; }

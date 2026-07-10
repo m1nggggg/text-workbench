@@ -1,6 +1,6 @@
 # Design system
 
-The current design is a restrained diff workbench grounded in real editor conventions. It is intentionally flat, dense, and functional: no gradients, glass effects, oversized marketing copy, or decorative motion.
+The current design is a restrained diff workbench grounded in real editor conventions. It uses local shadcn/ui primitives and Radix behavior for consistent controls while staying intentionally flat, dense, and functional: no gradients, glass effects, oversized marketing copy, or decorative motion.
 
 ## Product principles
 
@@ -16,15 +16,15 @@ The current design is a restrained diff workbench grounded in real editor conven
 
 | Role | Value |
 |---|---|
-| Canvas | `#0c0e11` |
-| Panel | `#12151a` |
-| Raised panel | `#181c22` |
-| Editor | `#0e1115` |
-| Border | `#292e37` |
-| Primary text | `#edf0f4` |
-| Muted text | `#949ca8` |
-| Secondary text | `#757e8a` (4.60:1 on the editor surface) |
-| Accent | `#4c96e8` |
+| Canvas | `#090b0f` |
+| Panel | `#0f1218` |
+| Raised panel | `#171b23` |
+| Editor | `#0b0e13` |
+| Border | `#262c36` |
+| Primary text | `#f1f4f8` |
+| Muted text | `#9ba4b1` |
+| Secondary text | `#7c8694` |
+| Accent | `#69aaf3` |
 | Added | `#55c894` on `#102a21` |
 | Removed | `#ef7c82` on `#30171b` |
 | Changed | `#d5ae67` on `#2b2417` |

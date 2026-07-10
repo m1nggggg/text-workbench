@@ -1,6 +1,10 @@
 import { GitCompareArrows, LoaderCircle, LockKeyhole } from 'lucide-react';
 import type { CompareMode } from '../compare/types';
 import ModeSelector from './ModeSelector';
+import { Badge } from './ui/badge';
+import { Button } from './ui/button';
+import { Separator } from './ui/separator';
+import { Tooltip, TooltipContent, TooltipTrigger } from './ui/tooltip';
 
 type AppHeaderProps = {
   mode: CompareMode;
@@ -24,13 +28,20 @@ const AppHeader = ({ mode, onModeChange, onCompare, isComparing }: AppHeaderProp
     </div>
 
     <div className="top-actions">
-      <span className="privacy-badge"><LockKeyhole aria-hidden="true" size={13} /> Local only</span>
-      <ModeSelector mode={mode} onModeChange={onModeChange} />
-      <button className="primary-button" type="button" aria-label="Compare" disabled={isComparing} onClick={onCompare}>
-        {isComparing ? <LoaderCircle className="is-spinning" aria-hidden="true" size={16} /> : <GitCompareArrows aria-hidden="true" size={16} />}
-        {isComparing ? 'Comparing' : 'Compare'}
-        <kbd>{shortcutLabel}</kbd>
-      </button>
+      <Badge className="privacy-badge" variant="success"><LockKeyhole aria-hidden="true" /> Local only</Badge>
+      <Separator className="top-separator" orientation="vertical" />
+      <div className="compare-controls">
+        <ModeSelector mode={mode} onModeChange={onModeChange} />
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button className="primary-button" size="sm" type="button" aria-label="Compare" disabled={isComparing} onClick={onCompare}>
+              {isComparing ? <LoaderCircle className="is-spinning" aria-hidden="true" /> : <GitCompareArrows aria-hidden="true" />}
+              {isComparing ? 'Comparing' : 'Compare'}
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent>Compare inputs · {shortcutLabel}</TooltipContent>
+        </Tooltip>
+      </div>
     </div>
   </header>
 );

@@ -1,4 +1,5 @@
 import type { TextCompareOptions } from '../compare/types';
+import { Checkbox } from './ui/checkbox';
 
 type TextComparisonOptionsProps = {
   options: TextCompareOptions;
@@ -8,22 +9,20 @@ type TextComparisonOptionsProps = {
 const TextComparisonOptions = ({ options, onChange }: TextComparisonOptionsProps) => (
   <fieldset className="comparison-options">
     <legend>Text comparison options</legend>
-    <label>
-      <input
-        type="checkbox"
+    <label htmlFor="ignore-whitespace">
+      <Checkbox
+        id="ignore-whitespace"
         checked={options.ignoreWhitespace}
-        onChange={(event) => onChange('ignoreWhitespace', event.target.checked)}
+        onCheckedChange={(checked) => onChange('ignoreWhitespace', checked === true)}
       />
-      <span aria-hidden="true" />
       Ignore whitespace
     </label>
-    <label>
-      <input
-        type="checkbox"
+    <label htmlFor="ignore-case">
+      <Checkbox
+        id="ignore-case"
         checked={options.ignoreCase}
-        onChange={(event) => onChange('ignoreCase', event.target.checked)}
+        onCheckedChange={(checked) => onChange('ignoreCase', checked === true)}
       />
-      <span aria-hidden="true" />
       Ignore case
     </label>
   </fieldset>

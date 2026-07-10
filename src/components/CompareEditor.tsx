@@ -3,6 +3,8 @@ import type { ChangeEvent, DragEvent } from 'react';
 import { Braces, Clipboard, Eraser, FileUp } from 'lucide-react';
 import type { CompareMode, InputError } from '../compare/types';
 import CodeEditor from './CodeEditor';
+import { Button } from './ui/button';
+import { Tooltip, TooltipContent, TooltipTrigger } from './ui/tooltip';
 
 type CompareEditorProps = {
   side: 'left' | 'right';
@@ -112,20 +114,20 @@ const CompareEditor = ({
             aria-label={`Choose file for ${title}`}
             onChange={handleFileInput}
           />
-          <button className="icon-button" type="button" title="Open file" aria-label={`Open file for ${title}`} onClick={() => fileInput.current?.click()}>
+          <Tooltip><TooltipTrigger asChild><Button className="icon-button" variant="ghost" size="icon-sm" type="button" aria-label={`Open file for ${title}`} onClick={() => fileInput.current?.click()}>
             <FileUp aria-hidden="true" size={15} />
-          </button>
-          <button className="icon-button" type="button" title="Copy input" aria-label={`Copy ${title} content`} disabled={!value} onClick={() => void copyInput()}>
+          </Button></TooltipTrigger><TooltipContent>Open file</TooltipContent></Tooltip>
+          <Tooltip><TooltipTrigger asChild><Button className="icon-button" variant="ghost" size="icon-sm" type="button" aria-label={`Copy ${title} content`} disabled={!value} onClick={() => void copyInput()}>
             <Clipboard aria-hidden="true" size={15} />
-          </button>
+          </Button></TooltipTrigger><TooltipContent>Copy input</TooltipContent></Tooltip>
           {mode === 'json' ? (
-            <button className="editor-button" type="button" aria-label={`Beautify JSON for ${sideLabel}`} disabled={!value} onClick={onBeautify}>
+            <Button className="editor-button" variant="outline" size="xs" type="button" aria-label={`Beautify JSON for ${sideLabel}`} disabled={!value} onClick={onBeautify}>
               <Braces aria-hidden="true" size={15} /> Format
-            </button>
+            </Button>
           ) : null}
-          <button className="icon-button" type="button" title="Clear input" aria-label={`Clear ${sideLabel}`} disabled={!value} onClick={onClear}>
+          <Tooltip><TooltipTrigger asChild><Button className="icon-button" variant="ghost" size="icon-sm" type="button" aria-label={`Clear ${sideLabel}`} disabled={!value} onClick={onClear}>
             <Eraser aria-hidden="true" size={15} />
-          </button>
+          </Button></TooltipTrigger><TooltipContent>Clear input</TooltipContent></Tooltip>
         </div>
       </div>
 
