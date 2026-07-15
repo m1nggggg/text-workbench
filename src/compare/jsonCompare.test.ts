@@ -6,7 +6,7 @@ describe('parseJsonInput', () => {
 
     expect(result).toEqual({
       ok: false,
-      error: { side: 'left', message: 'Left JSON is required.' },
+      error: { side: 'left', message: 'Original JSON is required.' },
     });
   });
 
@@ -15,7 +15,7 @@ describe('parseJsonInput', () => {
 
     expect(result).toEqual({
       ok: false,
-      error: { side: 'right', message: 'Right JSON is required.' },
+      error: { side: 'right', message: 'Modified JSON is required.' },
     });
   });
 
@@ -25,7 +25,7 @@ describe('parseJsonInput', () => {
     expect(result.ok).toBe(false);
     if (!result.ok) {
       expect(result.error.side).toBe('right');
-      expect(result.error.message).toMatch(/^Right JSON is invalid:/);
+      expect(result.error.message).toMatch(/^Modified JSON is invalid:/);
     }
   });
 });
@@ -45,7 +45,7 @@ describe('beautifyJson', () => {
 
     expect(result.ok).toBe(false);
     if (!result.ok) {
-      expect(result.error.message).toMatch(/^Left JSON is invalid:/);
+      expect(result.error.message).toMatch(/^Original JSON is invalid:/);
     }
   });
 });
@@ -153,7 +153,7 @@ describe('compareJson', () => {
     expect(result.ok).toBe(false);
     if (!result.ok) {
       expect(result.leftError).toBeUndefined();
-      expect(result.rightError?.message).toMatch(/^Right JSON is invalid:/);
+      expect(result.rightError?.message).toMatch(/^Modified JSON is invalid:/);
     }
   });
 });

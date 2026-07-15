@@ -23,13 +23,13 @@ const WorkspaceToolbar = ({ canClear, canSwap, mode, textOptions, onTextOptionCh
     <div className="workspace-actions">
       {mode === 'text' ? <TextComparisonOptions options={textOptions} onChange={onTextOptionChange} /> : null}
       <Button className="toolbar-button" variant="outline" size="sm" type="button" onClick={onLoadExample}>
-        <FlaskConical aria-hidden="true" size={15} /> Example
+        <FlaskConical data-icon="inline-start" aria-hidden="true" /> Example
       </Button>
       <Button className="toolbar-button" variant="outline" size="sm" type="button" disabled={!canSwap} onClick={onSwap} aria-label="Swap inputs">
-        <ArrowLeftRight aria-hidden="true" size={15} /> Swap
+        <ArrowLeftRight data-icon="inline-start" aria-hidden="true" /> Swap
       </Button>
       <Button className="toolbar-button clear-all-button" variant="ghost" size="sm" type="button" disabled={!canClear} onClick={onClear}>
-        <Eraser aria-hidden="true" size={15} /> Clear all
+        <Eraser data-icon="inline-start" aria-hidden="true" /> Clear all
       </Button>
     </div>
   </div>

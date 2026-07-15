@@ -97,7 +97,7 @@ const CodeEditor = ({ label, mode, value, describedBy, invalid, onChange }: Code
           attributes.current.of(EditorView.contentAttributes.of(
             editorAttributes(config.label, config.invalid, config.describedBy),
           )),
-          placeholderText.current.of(placeholder(config.mode === 'json' ? 'Paste JSON here…' : 'Paste text here…')),
+          placeholderText.current.of(placeholder(config.mode === 'json' ? 'Paste JSON or drop a file…' : 'Paste text or drop a file…')),
           EditorView.updateListener.of((update) => {
             if (update.docChanged) onChangeRef.current(update.state.doc.toString());
           }),
@@ -125,7 +125,7 @@ const CodeEditor = ({ label, mode, value, describedBy, invalid, onChange }: Code
   useEffect(() => {
     view.current?.dispatch({ effects: language.current.reconfigure(mode === 'json' ? json() : []) });
     view.current?.dispatch({
-      effects: placeholderText.current.reconfigure(placeholder(mode === 'json' ? 'Paste JSON here…' : 'Paste text here…')),
+      effects: placeholderText.current.reconfigure(placeholder(mode === 'json' ? 'Paste JSON or drop a file…' : 'Paste text or drop a file…')),
     });
   }, [mode]);
 

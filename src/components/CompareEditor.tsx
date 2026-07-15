@@ -39,7 +39,8 @@ const CompareEditor = ({
 }: CompareEditorProps) => {
   const fileInput = useRef<HTMLInputElement>(null);
   const [isDragging, setIsDragging] = useState(false);
-  const sideLabel = side === 'left' ? 'Left' : 'Right';
+  const sideLabel = side === 'left' ? 'Original' : 'Modified';
+  const phaseLabel = side === 'left' ? 'Before' : 'After';
   const lineCount = value.length === 0 ? 0 : value.split('\n').length;
   const byteCount = new Blob([value]).size;
 
@@ -103,7 +104,7 @@ const CompareEditor = ({
         <div className="editor-title">
           <span className={`side-marker side-marker-${side}`} aria-hidden="true" />
           <h3 id={`${side}-editor-title`}>{title}</h3>
-          <span>{sideLabel}</span>
+          <span>{phaseLabel}</span>
         </div>
         <div className="editor-actions">
           <input
@@ -115,18 +116,18 @@ const CompareEditor = ({
             onChange={handleFileInput}
           />
           <Tooltip><TooltipTrigger asChild><Button className="icon-button" variant="ghost" size="icon-sm" type="button" aria-label={`Open file for ${title}`} onClick={() => fileInput.current?.click()}>
-            <FileUp aria-hidden="true" size={15} />
+            <FileUp aria-hidden="true" />
           </Button></TooltipTrigger><TooltipContent>Open file</TooltipContent></Tooltip>
           <Tooltip><TooltipTrigger asChild><Button className="icon-button" variant="ghost" size="icon-sm" type="button" aria-label={`Copy ${title} content`} disabled={!value} onClick={() => void copyInput()}>
-            <Clipboard aria-hidden="true" size={15} />
+            <Clipboard aria-hidden="true" />
           </Button></TooltipTrigger><TooltipContent>Copy input</TooltipContent></Tooltip>
           {mode === 'json' ? (
             <Button className="editor-button" variant="outline" size="xs" type="button" aria-label={`Beautify JSON for ${sideLabel}`} disabled={!value} onClick={onBeautify}>
-              <Braces aria-hidden="true" size={15} /> Format
+              <Braces data-icon="inline-start" aria-hidden="true" /> Format
             </Button>
           ) : null}
           <Tooltip><TooltipTrigger asChild><Button className="icon-button" variant="ghost" size="icon-sm" type="button" aria-label={`Clear ${sideLabel}`} disabled={!value} onClick={onClear}>
-            <Eraser aria-hidden="true" size={15} />
+            <Eraser aria-hidden="true" />
           </Button></TooltipTrigger><TooltipContent>Clear input</TooltipContent></Tooltip>
         </div>
       </div>
@@ -143,7 +144,7 @@ const CompareEditor = ({
         {isDragging ? <div className="drop-overlay">Drop to replace {title.toLowerCase()}</div> : null}
       </div>
 
-      <div className="editor-status" aria-label={`${title} input statistics`}>
+      <div className="editor-status" aria-label={`${title} statistics`}>
         <span>{mode.toUpperCase()}</span>
         <span>{lineCount.toLocaleString()} {lineCount === 1 ? 'line' : 'lines'}</span>
         <span>{formatBytes(byteCount)}</span>

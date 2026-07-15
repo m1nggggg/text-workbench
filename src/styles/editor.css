@@ -91,4 +91,20 @@
 }
 .editor-status span:first-child { color: var(--accent); }
 .field-error { padding: 8px 12px; border-top: 1px solid #512b30; background: #261519; color: var(--error); font-size: 0.74rem; line-height: 1.4; }
-.workspace-notice { min-height: 26px; padding: 8px 2px 0; color: var(--muted); font-size: 0.7rem; }
+.workspace-notice {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  min-height: 30px;
+  padding: 8px 3px 0;
+  color: var(--muted);
+  font-size: 0.7rem;
+}
+.workspace-notice svg { width: 13px; height: 13px; flex: 0 0 auto; }
+.workspace-notice[data-tone="loading"] { color: var(--accent-hover); }
+.workspace-notice[data-tone="error"] { color: var(--error); }
+.workspace-notice[data-tone="success"] { color: var(--added); }
+.results-region { scroll-margin-top: 82px; }
+.results-region:empty { display: none; }
+.results-region:focus { outline: none; }
+.results-region:focus .results-panel { box-shadow: 0 0 0 2px var(--accent), 0 12px 36px rgb(0 0 0 / 16%); }

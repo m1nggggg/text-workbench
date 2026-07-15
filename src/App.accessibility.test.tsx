@@ -24,8 +24,8 @@ describe('App accessibility structure', () => {
   it('has no detectable accessibility violations in JSON results', async () => {
     const user = userEvent.setup();
     render(<App />);
-    setEditorText(/left input/i, '{"enabled":false}');
-    setEditorText(/right input/i, '{"enabled":true}');
+    setEditorText(/original input/i, '{"enabled":false}');
+    setEditorText(/modified input/i, '{"enabled":true}');
     await user.click(screen.getByRole('button', { name: /^compare$/i }));
 
     expect(await accessibilityViolations()).toEqual([]);
@@ -35,8 +35,8 @@ describe('App accessibility structure', () => {
     const user = userEvent.setup();
     render(<App />);
     await user.click(screen.getByRole('tab', { name: /text/i }));
-    setEditorText(/left input/i, 'status: pending');
-    setEditorText(/right input/i, 'status: approved');
+    setEditorText(/original input/i, 'status: pending');
+    setEditorText(/modified input/i, 'status: approved');
     await user.click(screen.getByRole('button', { name: /^compare$/i }));
 
     expect(await accessibilityViolations()).toEqual([]);

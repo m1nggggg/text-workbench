@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import App from './App';
 import { getEditorSelection, getEditorText, runEditorKey, setEditorText } from './test/editor';
@@ -40,24 +40,35 @@ describe('App input workspace', () => {
 
     await user.click(screen.getByRole('button', { name: /example/i }));
 
-    expect(getEditorText(/left input/i)).toContain('checkout');
-    expect(getEditorText(/right input/i)).toContain('checkout');
+    expect(getEditorText(/original input/i)).toContain('checkout');
+    expect(getEditorText(/modified input/i)).toContain('checkout');
+  });
+
+  it('moves focus to new comparison results', async () => {
+    const user = userEvent.setup();
+    render(<App />);
+    setEditorText(/original input/i, '{"enabled":false}');
+    setEditorText(/modified input/i, '{"enabled":true}');
+
+    await user.click(screen.getByRole('button', { name: /^compare$/i }));
+
+    await waitFor(() => expect(screen.getByRole('region', { name: /comparison results/i })).toHaveFocus());
   });
 
   it('inserts two spaces when Tab is pressed inside an editor', () => {
     render(<App />);
-    setEditorText(/left input/i, 'ab', 1);
-    expect(getEditorSelection(/left input/i)).toBe(1);
-    runEditorKey(/left input/i, 'Tab');
+    setEditorText(/original input/i, 'ab', 1);
+    expect(getEditorSelection(/original input/i)).toBe(1);
+    runEditorKey(/original input/i, 'Tab');
 
-    expect(getEditorText(/left input/i)).toBe('a  b');
+    expect(getEditorText(/original input/i)).toBe('a  b');
   });
 
   it('opens editor-local search with the standard shortcut', () => {
     render(<App />);
-    setEditorText(/left input/i, 'find this value');
+    setEditorText(/original input/i, 'find this value');
 
-    runEditorKey(/left input/i, 'f', { ctrlKey: true });
+    runEditorKey(/original input/i, 'f', { ctrlKey: true });
 
     expect(screen.getByRole('textbox', { name: /^find$/i })).toBeInTheDocument();
   });
@@ -66,46 +77,46 @@ describe('App input workspace', () => {
     const user = userEvent.setup();
     render(<App />);
 
-    setEditorText(/left input/i, 'first');
-    setEditorText(/right input/i, 'second');
+    setEditorText(/original input/i, 'first');
+    setEditorText(/modified input/i, 'second');
     await user.click(screen.getByRole('button', { name: /swap inputs/i }));
 
-    expect(getEditorText(/left input/i)).toBe('second');
-    expect(getEditorText(/right input/i)).toBe('first');
+    expect(getEditorText(/original input/i)).toBe('second');
+    expect(getEditorText(/modified input/i)).toBe('first');
   });
 
   it('beautifies one JSON pane independently', async () => {
     const user = userEvent.setup();
     render(<App />);
 
-    setEditorText(/left input/i, '{"name":"Ada"}');
-    setEditorText(/right input/i, '{"name":"Grace"}');
-    await user.click(screen.getByRole('button', { name: /beautify json for left/i }));
+    setEditorText(/original input/i, '{"name":"Ada"}');
+    setEditorText(/modified input/i, '{"name":"Grace"}');
+    await user.click(screen.getByRole('button', { name: /beautify json for original/i }));
 
-    expect(getEditorText(/left input/i)).toBe('{\n  "name": "Ada"\n}');
-    expect(getEditorText(/right input/i)).toBe('{"name":"Grace"}');
+    expect(getEditorText(/original input/i)).toBe('{\n  "name": "Ada"\n}');
+    expect(getEditorText(/modified input/i)).toBe('{"name":"Grace"}');
   });
 
   it('shows an inline error for invalid JSON beautify without changing input', async () => {
     const user = userEvent.setup();
     render(<App />);
 
-    setEditorText(/left input/i, '{bad');
-    await user.click(screen.getByRole('button', { name: /beautify json for left/i }));
+    setEditorText(/original input/i, '{bad');
+    await user.click(screen.getByRole('button', { name: /beautify json for original/i }));
 
-    expect(getEditorText(/left input/i)).toBe('{bad');
-    expect(screen.getByRole('alert')).toHaveTextContent(/^Left JSON is invalid:/);
+    expect(getEditorText(/original input/i)).toBe('{bad');
+    expect(screen.getByRole('alert')).toHaveTextContent(/^Original JSON is invalid:/);
   });
 
   it('clears only the selected pane', async () => {
     const user = userEvent.setup();
     render(<App />);
 
-    setEditorText(/left input/i, 'left value');
-    setEditorText(/right input/i, 'right value');
-    await user.click(screen.getByRole('button', { name: /clear left/i }));
+    setEditorText(/original input/i, 'left value');
+    setEditorText(/modified input/i, 'right value');
+    await user.click(screen.getByRole('button', { name: /clear original/i }));
 
-    expect(getEditorText(/left input/i)).toBe('');
-    expect(getEditorText(/right input/i)).toBe('right value');
+    expect(getEditorText(/original input/i)).toBe('');
+    expect(getEditorText(/modified input/i)).toBe('right value');
   });
 });

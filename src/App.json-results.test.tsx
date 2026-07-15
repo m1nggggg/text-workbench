@@ -8,11 +8,11 @@ describe('App compare results', () => {
     const user = userEvent.setup();
     render(<App />);
 
-    setEditorText(/left input/i, '{"ok":true}');
-    setEditorText(/right input/i, '{bad');
+    setEditorText(/original input/i, '{"ok":true}');
+    setEditorText(/modified input/i, '{bad');
     await user.click(screen.getByRole('button', { name: /^compare$/i }));
 
-    expect(screen.getByText(/^Right JSON is invalid:/)).toBeInTheDocument();
+    expect(screen.getByText(/^Modified JSON is invalid:/)).toBeInTheDocument();
     expect(screen.queryByRole('region', { name: /compare results/i })).not.toBeInTheDocument();
   });
 
@@ -20,8 +20,8 @@ describe('App compare results', () => {
     const user = userEvent.setup();
     render(<App />);
 
-    setEditorText(/left input/i, '{"user":{"name":"Ada"}}');
-    setEditorText(/right input/i, '{"user":{"name":"Grace"}}');
+    setEditorText(/original input/i, '{"user":{"name":"Ada"}}');
+    setEditorText(/modified input/i, '{"user":{"name":"Grace"}}');
     await user.click(screen.getByRole('button', { name: /^compare$/i }));
 
     const results = screen.getByRole('region', { name: /compare results/i });
@@ -37,8 +37,8 @@ describe('App compare results', () => {
   it('uses one aligned scroll viewport for both formatted JSON sources', async () => {
     const user = userEvent.setup();
     render(<App />);
-    setEditorText(/left input/i, '{"a":1,"nested":{"value":"left"}}');
-    setEditorText(/right input/i, '{"a":2,"nested":{"value":"right"}}');
+    setEditorText(/original input/i, '{"a":1,"nested":{"value":"left"}}');
+    setEditorText(/modified input/i, '{"a":2,"nested":{"value":"right"}}');
     await user.click(screen.getByRole('button', { name: /^compare$/i }));
     const linkedSource = screen.getByRole('table', { name: /linked formatted json sources/i });
     expect(within(linkedSource).getByRole('columnheader', { name: /original/i })).toBeInTheDocument();
@@ -50,8 +50,8 @@ describe('App compare results', () => {
   it('highlights the full removed JSON object subtree in source context', async () => {
     const user = userEvent.setup();
     render(<App />);
-    setEditorText(/left input/i, '{"friends":[{"id":0,"name":"Kelly Deleon"}]}');
-    setEditorText(/right input/i, '{"friends":[]}');
+    setEditorText(/original input/i, '{"friends":[{"id":0,"name":"Kelly Deleon"}]}');
+    setEditorText(/modified input/i, '{"friends":[]}');
     await user.click(screen.getByRole('button', { name: /^compare$/i }));
 
     const linkedSource = screen.getByRole('table', { name: /linked formatted json sources/i });
@@ -65,8 +65,8 @@ describe('App compare results', () => {
     const user = userEvent.setup();
     render(<App />);
 
-    setEditorText(/left input/i, '{"a":1,"b":2}');
-    setEditorText(/right input/i, '{"b":2,"a":1}');
+    setEditorText(/original input/i, '{"a":1,"b":2}');
+    setEditorText(/modified input/i, '{"b":2,"a":1}');
     await user.click(screen.getByRole('button', { name: /^compare$/i }));
 
     expect(screen.getByRole('heading', { name: /inputs are identical/i })).toBeInTheDocument();
@@ -78,8 +78,8 @@ describe('App compare results', () => {
     render(<App />);
     const left = Object.fromEntries(Array.from({ length: 250 }, (_, index) => [`k${String(index).padStart(3, '0')}`, index]));
     const right = Object.fromEntries(Array.from({ length: 250 }, (_, index) => [`k${String(index).padStart(3, '0')}`, index + 1]));
-    setEditorText(/left input/i, JSON.stringify(left));
-    setEditorText(/right input/i, JSON.stringify(right));
+    setEditorText(/original input/i, JSON.stringify(left));
+    setEditorText(/modified input/i, JSON.stringify(right));
     await user.click(screen.getByRole('button', { name: /^compare$/i }));
 
     const table = screen.getByRole('table', { name: /json path differences/i });
@@ -95,8 +95,8 @@ describe('App compare results', () => {
     render(<App />);
     const left = JSON.stringify({ payload: 'a'.repeat(160_000) });
     const right = JSON.stringify({ payload: 'b'.repeat(160_000) });
-    setEditorText(/left input/i, left);
-    setEditorText(/right input/i, right);
+    setEditorText(/original input/i, left);
+    setEditorText(/modified input/i, right);
     await user.click(screen.getByRole('button', { name: /^compare$/i }));
 
     const summary = screen.getByText(/formatted source context · large input/i);

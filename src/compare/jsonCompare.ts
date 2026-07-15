@@ -11,7 +11,7 @@ import type {
   JsonValue,
 } from './types';
 
-const sideLabel = (side: CompareSide) => (side === 'left' ? 'Left' : 'Right');
+const sideLabel = (side: CompareSide) => (side === 'left' ? 'Original' : 'Modified');
 
 export const parseJsonInput = (input: string, side: CompareSide): JsonParseResult => {
   if (input.trim().length === 0) {

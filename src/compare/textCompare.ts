@@ -20,8 +20,8 @@ export const compareText = (
   rightInput: string,
   options: TextCompareOptions = defaultTextCompareOptions,
 ): TextCompareResult => {
-  const leftError = leftInput.length === 0 ? { side: 'left' as const, message: 'Left text is required.' } : undefined;
-  const rightError = rightInput.length === 0 ? { side: 'right' as const, message: 'Right text is required.' } : undefined;
+  const leftError = leftInput.length === 0 ? { side: 'left' as const, message: 'Original text is required.' } : undefined;
+  const rightError = rightInput.length === 0 ? { side: 'right' as const, message: 'Modified text is required.' } : undefined;
 
   if (leftError || rightError) {
     return { ok: false, leftError, rightError };

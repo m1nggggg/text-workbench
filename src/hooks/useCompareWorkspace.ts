@@ -125,8 +125,8 @@ export const useCompareWorkspace = () => {
       }
     };
 
-    window.addEventListener('keydown', handleShortcut);
-    return () => window.removeEventListener('keydown', handleShortcut);
+    window.addEventListener('keydown', handleShortcut, { capture: true });
+    return () => window.removeEventListener('keydown', handleShortcut, { capture: true });
   }, [handleCompare]);
 
   useEffect(() => cancelActiveComparison, [cancelActiveComparison]);

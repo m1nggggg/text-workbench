@@ -1,9 +1,8 @@
-import { GitCompareArrows, LoaderCircle, LockKeyhole } from 'lucide-react';
+import { GitCompareArrows, LoaderCircle } from 'lucide-react';
 import type { CompareMode } from '../compare/types';
 import ModeSelector from './ModeSelector';
-import { Badge } from './ui/badge';
 import { Button } from './ui/button';
-import { Separator } from './ui/separator';
+import { Kbd } from './ui/kbd';
 import { Tooltip, TooltipContent, TooltipTrigger } from './ui/tooltip';
 
 type AppHeaderProps = {
@@ -17,9 +16,9 @@ const shortcutLabel = typeof navigator !== 'undefined' && /Mac|iPhone|iPad/.test
 
 const AppHeader = ({ mode, onModeChange, onCompare, isComparing }: AppHeaderProps) => (
   <header className="top-bar">
-    <div className="brand-lockup">
-      <div className="brand-mark" aria-hidden="true">
-        <GitCompareArrows size={19} strokeWidth={1.8} />
+      <div className="brand-lockup">
+        <div className="brand-mark" aria-hidden="true">
+          <GitCompareArrows strokeWidth={1.8} />
       </div>
       <div>
         <h1>Text JSON Compare</h1>
@@ -28,15 +27,14 @@ const AppHeader = ({ mode, onModeChange, onCompare, isComparing }: AppHeaderProp
     </div>
 
     <div className="top-actions">
-      <Badge className="privacy-badge" variant="success"><LockKeyhole aria-hidden="true" /> Local only</Badge>
-      <Separator className="top-separator" orientation="vertical" />
       <div className="compare-controls">
         <ModeSelector mode={mode} onModeChange={onModeChange} />
         <Tooltip>
           <TooltipTrigger asChild>
-            <Button className="primary-button" size="sm" type="button" aria-label="Compare" disabled={isComparing} onClick={onCompare}>
-              {isComparing ? <LoaderCircle className="is-spinning" aria-hidden="true" /> : <GitCompareArrows aria-hidden="true" />}
+            <Button className="primary-button" size="sm" type="button" aria-label="Compare" aria-keyshortcuts="Control+Enter Meta+Enter" disabled={isComparing} onClick={onCompare}>
+              {isComparing ? <LoaderCircle className="is-spinning" data-icon="inline-start" aria-hidden="true" /> : <GitCompareArrows data-icon="inline-start" aria-hidden="true" />}
               {isComparing ? 'Comparing' : 'Compare'}
+              {!isComparing ? <Kbd className="compare-shortcut" aria-hidden="true">{shortcutLabel}</Kbd> : null}
             </Button>
           </TooltipTrigger>
           <TooltipContent>Compare inputs · {shortcutLabel}</TooltipContent>

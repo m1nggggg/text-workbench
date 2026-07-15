@@ -6,7 +6,7 @@ describe('compareText', () => {
 
     expect(result).toEqual({
       ok: false,
-      leftError: { side: 'left', message: 'Left text is required.' },
+      leftError: { side: 'left', message: 'Original text is required.' },
     });
   });
 

@@ -9,8 +9,8 @@ describe('App text compare results', () => {
     render(<App />);
 
     await user.click(screen.getByRole('tab', { name: /text/i }));
-    setEditorText(/left input/i, 'status: pending');
-    setEditorText(/right input/i, 'status: approved');
+    setEditorText(/original input/i, 'status: pending');
+    setEditorText(/modified input/i, 'status: approved');
     await user.click(screen.getByRole('button', { name: /^compare$/i }));
 
     const results = screen.getByRole('region', { name: /compare results/i });
@@ -25,15 +25,15 @@ describe('App text compare results', () => {
     const user = userEvent.setup();
     render(<App />);
     await user.click(screen.getByRole('tab', { name: /text/i }));
-    setEditorText(/left input/i, '  Release\tREADY  ');
-    setEditorText(/right input/i, 'release ready');
+    setEditorText(/original input/i, '  Release\tREADY  ');
+    setEditorText(/modified input/i, 'release ready');
     await user.click(screen.getByRole('button', { name: /^compare$/i }));
     expect(screen.getByText('Changed: 1')).toBeInTheDocument();
 
     await user.click(screen.getByRole('checkbox', { name: /ignore whitespace/i }));
     await user.click(screen.getByRole('checkbox', { name: /ignore case/i }));
     expect(screen.queryByRole('region', { name: /compare results/i })).not.toBeInTheDocument();
-    expect(getEditorText(/left input/i)).toBe('  Release\tREADY  ');
+    expect(getEditorText(/original input/i)).toBe('  Release\tREADY  ');
 
     await user.click(screen.getByRole('button', { name: /^compare$/i }));
     expect(screen.getByRole('heading', { name: /inputs are identical/i })).toBeInTheDocument();
@@ -43,23 +43,24 @@ describe('App text compare results', () => {
   it('compares with the primary keyboard shortcut', () => {
     render(<App />);
 
-    setEditorText(/left input/i, '{"ok":true}');
-    setEditorText(/right input/i, '{"ok":false}');
-    fireEvent.keyDown(screen.getByLabelText(/left input/i), { key: 'Enter', ctrlKey: true });
+    setEditorText(/original input/i, '{"ok":true}');
+    setEditorText(/modified input/i, '{"ok":false}');
+    fireEvent.keyDown(screen.getByLabelText(/original input/i), { key: 'Enter', ctrlKey: true });
 
     expect(screen.getByRole('region', { name: /compare results/i })).toBeInTheDocument();
+    expect(getEditorText(/original input/i)).toBe('{"ok":true}');
   });
 
   it('clears stale results as soon as an input changes', async () => {
     const user = userEvent.setup();
     render(<App />);
 
-    setEditorText(/left input/i, '{"ok":true}');
-    setEditorText(/right input/i, '{"ok":false}');
+    setEditorText(/original input/i, '{"ok":true}');
+    setEditorText(/modified input/i, '{"ok":false}');
     await user.click(screen.getByRole('button', { name: /^compare$/i }));
     expect(screen.getByRole('region', { name: /compare results/i })).toBeInTheDocument();
 
-    setEditorText(/right input/i, `${getEditorText(/right input/i)} `);
+    setEditorText(/modified input/i, `${getEditorText(/modified input/i)} `);
 
     expect(screen.queryByRole('region', { name: /compare results/i })).not.toBeInTheDocument();
   });
@@ -71,8 +72,8 @@ describe('App text compare results', () => {
     const leftLines = Array.from({ length: 120 }, (_, index) => `line ${index + 1}`);
     const rightLines = [...leftLines];
     rightLines[60] = 'line sixty-one changed';
-    setEditorText(/left input/i, leftLines.join('\n'));
-    setEditorText(/right input/i, rightLines.join('\n'));
+    setEditorText(/original input/i, leftLines.join('\n'));
+    setEditorText(/modified input/i, rightLines.join('\n'));
 
     await user.click(screen.getByRole('button', { name: /^compare$/i }));
 
